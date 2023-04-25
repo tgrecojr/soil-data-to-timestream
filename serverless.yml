@@ -1,0 +1,32 @@
+service: soil-data-to-timestream
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-2
+  timeout: 120
+  runtime: python3.9
+  logRetentionInDays: 3
+  iam:
+    role: arn:aws:iam::${aws:accountId}:role/soil-data-lambda-assume-role
+  deploymentBucket:
+    name: serverless-soil-deployment-bucket
+
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-log-retention
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
+functions:
+  soildataprocessor:
+    handler: processsoil.processdata
+    events:
+      - s3:
+          bucket: greco-home-soildata
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .txt
+          existing: true
