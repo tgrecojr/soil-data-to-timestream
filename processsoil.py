@@ -25,7 +25,6 @@ def converttofarenheit(celsius_value):
     else:
         return celsius_value
     
-@staticmethod
 def _print_rejected_records_exceptions(err):
     print("RejectedRecords: ", err)
     for rr in err.response["RejectedRecords"]:
