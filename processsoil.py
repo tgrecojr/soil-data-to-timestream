@@ -1,3 +1,7 @@
+try:
+  import unzip_requirements
+except ImportError:
+  pass
 import pandas as pd
 import os
 from datetime import datetime
